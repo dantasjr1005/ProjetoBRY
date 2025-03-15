@@ -7,22 +7,21 @@ jobs:
 
     steps:
       - checkout  # Faz checkout do código-fonte do repositório
+
       - run:
           name: "Cluster login"
           command: "kubectl cluster-info"  # Executa o comando kubectl cluster-info para obter informações do cluster
 
       # Segunda tarefa exemplo - pode ser outra tarefa relacionada ao deployment, como deploy de uma aplicação ou outra configuração.
       - run:
-    name: "Instalar kubectl"
-    command: |
-      curl -LO https://storage.googleapis.com/kubernetes-release/release/`curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt`/bin/linux/amd64/kubectl
-      chmod +x ./kubectl
-      sudo mv ./kubectl /usr/local/bin/kubectl
-
-      
-
+          name: "Instalar kubectl"
+          command: |
+            curl -LO https://storage.googleapis.com/kubernetes-release/release/`curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt`/bin/linux/amd64/kubectl
+            chmod +x ./kubectl
+            sudo mv ./kubectl /usr/local/bin/kubectl
 
 workflows:
   deployment-workflow:
     jobs:
       - deployment  # Define que o job "deployment" será executado no workflow
+
