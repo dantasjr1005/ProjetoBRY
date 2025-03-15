@@ -1,7 +1,7 @@
 version: 2.1
 
 jobs:
-  say-hello:
+  deployment:
     docker:
       - image: cimg/base:current
 
@@ -9,10 +9,13 @@ jobs:
       
       - checkout
       - run:
-          name: "hello srmago"
-          command: "echo Hello, World!"
+          name: "Cluster info"
+          command: "kubectl cluster-info"
+
 
 workflows:
-  say-hello-workflow: 
+  deployment-workflow: 
     jobs:
-      - say-hello
+      - deployment
+
+      
