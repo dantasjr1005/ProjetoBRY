@@ -3,19 +3,26 @@ version: 2.1
 jobs:
   deployment:
     docker:
-      - image: cimg/base:current
+      - image: cimg/base:current  # Imagem Docker utilizada no job
 
     steps:
-      
-      - checkout
+      - checkout  # Faz checkout do código-fonte do repositório
       - run:
-          name: "Cluster info"
-          command: "kubectl cluster-info"
+          name: "Cluster login"
+          command: "kubectl cluster-info"  # Executa o comando kubectl cluster-info para obter informações do cluster
+
+      # Segunda tarefa exemplo - pode ser outra tarefa relacionada ao deployment, como deploy de uma aplicação ou outra configuração.
+      - run:
+    name: "Instalar kubectl"
+    command: |
+      curl -LO https://storage.googleapis.com/kubernetes-release/release/`curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt`/bin/linux/amd64/kubectl
+      chmod +x ./kubectl
+      sudo mv ./kubectl /usr/local/bin/kubectl
+
+      
 
 
 workflows:
-  deployment-workflow: 
+  deployment-workflow:
     jobs:
-      - deployment
-
-      
+      - deployment  # Define que o job "deployment" será executado no workflow
