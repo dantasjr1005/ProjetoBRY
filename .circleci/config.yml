@@ -3,20 +3,20 @@ version: 2.1
 jobs:
   deployment:
     docker:
-      - image: cimg/base:current  # Imagem Docker utilizada no job
+      - image: gcr.io/google.com/cloudsdktool/google-cloud-cli:alpine  # Imagem Docker com gcloud e kubectl pré-instalados
 
     steps:
       - checkout  # Faz checkout do código-fonte do repositório
       
-      # Tarefa para instalar o kubectl antes do login no cluster
+      # Autenticação com as credenciais do Kubernetes
       - run:
-          name: "Instalar kubectl"
+          name: "Autorizar Credenciais"
           command: |
-            curl -LO https://storage.googleapis.com/kubernetes-release/release/`curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt`/bin/linux/amd64/kubectl
-            chmod +x ./kubectl
-            sudo mv ./kubectl /usr/local/bin/kubectl
+            # Autoriza a conta de serviço com o gcloud e obtém as credenciais do cluster
+            gcloud auth activate-service-account --key-file=$GOOGLE_APPLICATION_CREDENTIALS
+            gcloud container clusters get-credentials meu-cluster --zone us-central1-a --project meu-projeto
 
-      # Agora o login no cluster é feito após a instalação do kubectl
+      # Agora o login no cluster é feito após a autorização
       - run:
           name: "Cluster login"
           command: "kubectl cluster-info"  # Executa o comando kubectl cluster-info para obter informações do cluster
