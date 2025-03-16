@@ -22,7 +22,7 @@ jobs:
           command: |
             cat /tmp/gcloud-key.json
             gcloud auth activate-service-account --key-file=/tmp/gcloud-key.json
-            gcloud container clusters get-credentials meu-cluster --zone us-central1-a --project meu-projeto
+            gcloud container clusters get-credentials my-cluster --zone us-central1-a --project meu-projeto
 
       # Agora o login no cluster é feito após a autorização
       - run:
