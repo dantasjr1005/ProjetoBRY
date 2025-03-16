@@ -21,7 +21,7 @@ jobs:
           name: "Autorizar Credenciais"
           command: |
             cat /tmp/gcloud-key.json
-            gcloud auth activate-service-account --key-file=$GOOGLE_APPLICATION_CREDENTIALS
+            gcloud auth activate-service-account --key-file=/tmp/gcloud-key.json
             gcloud container clusters get-credentials meu-cluster --zone us-central1-a --project meu-projeto
 
       # Agora o login no cluster é feito após a autorização
