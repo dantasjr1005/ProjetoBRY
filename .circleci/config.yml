@@ -12,7 +12,7 @@ jobs:
       - run:
           name: "Salvar chave de serviço"
           command: |
-            echo $GOOGLE_APPLICATION_CREDENTIALS_JSON | base64 --decode > /tmp/gcloud-key.json
+            echo $GOOGLE_APPLICATION_CREDENTIALS_JSON | base64 -d > /tmp/gcloud-key.json
             export GOOGLE_APPLICATION_CREDENTIALS="/tmp/gcloud-key.json"
 
       # Autenticação com as credenciais do Kubernetes
