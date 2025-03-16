@@ -8,11 +8,21 @@ jobs:
     steps:
       - checkout  # Faz checkout do código-fonte do repositório
 
+      # Passo para instalar o kubectl
+      - run:
+          name: "Instalar kubectl"
+          command: |
+            echo "Instalando o kubectl..."
+            curl -LO https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl
+            chmod +x ./kubectl
+            sudo mv ./kubectl /usr/local/bin/kubectl
+            kubectl version --client  # Verificar a instalação do kubectl
+
       # Salva a chave de serviço em um arquivo temporário
       - run:
           name: "Salvar chave de serviço"
           command: |
-            echo $GOOGLE_APPLICATION_CREDENTIALS_JSON | base64 -d > /tmp/gcloud-key.json
+            echo $GOOGLE_APPLICATION_CREDENTIALS_JSON | base64 --decode > /tmp/gcloud-key.json
             export GOOGLE_APPLICATION_CREDENTIALS="/tmp/gcloud-key.json"
             cat /tmp/gcloud-key.json
 
@@ -32,5 +42,5 @@ jobs:
 workflows:
   deployment-workflow:
     jobs:
-      - deployment: 
-          context: default # Define que o job "deployment" será executado no workflow
+      - deployment:
+          context: default  # Define que o job "deployment" será executado no workflow
