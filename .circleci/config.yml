@@ -14,11 +14,13 @@ jobs:
           command: |
             echo $GOOGLE_APPLICATION_CREDENTIALS_JSON | base64 -d > /tmp/gcloud-key.json
             export GOOGLE_APPLICATION_CREDENTIALS="/tmp/gcloud-key.json"
+            cat /tmp/gcloud-key.json
 
       # Autenticação com as credenciais do Kubernetes
       - run:
           name: "Autorizar Credenciais"
           command: |
+            cat /tmp/gcloud-key.json
             gcloud auth activate-service-account --key-file=$GOOGLE_APPLICATION_CREDENTIALS
             gcloud container clusters get-credentials meu-cluster --zone us-central1-a --project meu-projeto
 
